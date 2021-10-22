@@ -1,0 +1,25 @@
+body * {
+  box-sizing: border-box;
+}
+
+.app {
+  display: flex;
+  flex-flow: row;
+  width: 800px;
+  margin: 0 auto;
+}
+
+.login {
+  width: 250px;
+  flex-flow: column;
+  align-items: center;
+}
+
+.sidebar {
+  flex: 0 0 150px;
+  padding-right: 32px;
+}
+
+.content {
+  width: 0 0 650px;
+}

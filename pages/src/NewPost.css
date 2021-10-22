@@ -1,0 +1,9 @@
+.new-post {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.new-post .wide {
+  flex: 1 0 100%;
+}

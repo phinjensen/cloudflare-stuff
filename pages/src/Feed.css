@@ -1,0 +1,18 @@
+.post {
+  border: 1px solid grey;
+  border-radius: 8px;
+  padding: 20px 16px;
+  margin-bottom: 16px;
+}
+
+.post:first-child {
+  margin-top: 16px;
+}
+
+.post h3 {
+  margin-top: 0;
+}
+
+.post p:last-child {
+  margin-bottom: 0;
+}
