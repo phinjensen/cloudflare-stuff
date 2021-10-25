@@ -1,0 +1,7 @@
+This was my first time using any kind of serverless compute, so I learned a lot about how that works! I don't know if I have the development loop down, because some small mistakes seemed to require a lot of back-and-forth to figure out how to get things to work, and it made it harder to figure out where things were breaking. For example, the extra credit integration with the front-end: I think it's working how it should, but the autograder doesn't seem to think so, and I'm not sure where to look to figure out if things aren't right. And it took a few iterations finding where I was missing headers and sending the cookies correctly.
+
+I started learning Rust this year, so I chose to use that, and I've been enjoying it a lot. It's a really exciting language to me, and I've been looking for an excuse to use Actix, so that was great too!
+
+The assignment was pretty straightforward, for the most part, and the difficult part was just learning new technologies and libraries, such as serverless workers, KV storage, Actix, JWT for Rust (I've used a library for JS, but not Rust). But learning new stuff is one of my favorite things to do, so this was easily my favorite hiring assessment I've done yet! Cloudflare seems like an awesome place to work.
+
+Unfortunately, being a student I didn't have time to get to all of the extra credit. But I got the README done and made a decent attempt to get the systems+frontend integration working.

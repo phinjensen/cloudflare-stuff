@@ -10,9 +10,11 @@ addEventListener('fetch', event => {
  */
 async function handleRequest(request) {
   const { pathname } = new URL(request.url)
+  const origin = request.headers.get('Origin')
   let headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': origin,
     'Content-type': 'application/json',
+    'Access-Control-Allow-Credentials': true,
   }
   if (pathname === '/posts') {
     if (request.method === 'GET') {
@@ -41,7 +43,8 @@ async function handleRequest(request) {
             status: 400,
             headers: {
               'content-type': 'text/plain',
-              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Origin': origin,
+              'Access-Control-Allow-Credentials': true,
             },
           },
         )
@@ -50,7 +53,7 @@ async function handleRequest(request) {
       let authHeader
       if (!usernames.includes(body.username)) {
         const response = await fetch(
-          'https://inn-retail-sum-chairman.trycloudflare.com/auth/${body.username}',
+          `https://inn-retail-sum-chairman.trycloudflare.com/auth/${body.username}`,
         )
         authHeader = response.headers.get('Set-Cookie')
         usernames.push(body.username)
@@ -72,7 +75,8 @@ async function handleRequest(request) {
             status: 403,
             headers: {
               'content-type': 'text/plain',
-              'Access-Control-Allow-Origin': '*',
+              'Access-Control-Allow-Origin': origin,
+              'Access-Control-Allow-Credentials': true,
             },
           })
         }

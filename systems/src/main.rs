@@ -2,6 +2,7 @@ use actix_web::{get, web, App, HttpMessage, HttpServer, HttpRequest, HttpRespons
 use actix_web::http::Cookie;
 use jsonwebtoken::{encode, decode, Header, Algorithm, Validation, EncodingKey, DecodingKey};
 use serde::{Serialize, Deserialize};
+use std::fs;
 use std::time::SystemTime;
 
 fn now_as_secs() -> usize {
@@ -27,6 +28,7 @@ async fn auth(web::Path(username): web::Path<String>) -> impl Responder {
     let key = EncodingKey::from_rsa_pem(
         include_bytes!("private.pem")
     ).unwrap();
+    let body = fs::read_to_string("src/public.pem").unwrap();
     let token = encode(
         &header,
         &claims,
@@ -41,7 +43,7 @@ async fn auth(web::Path(username): web::Path<String>) -> impl Responder {
                 .path("/")
                 .finish()
         )
-        .body("<a href='/verify'>here</a>")
+        .body(body)
 }
 
 #[get("/verify")]
@@ -60,6 +62,11 @@ async fn verify(req: HttpRequest) -> impl Responder {
         .body("Error authenticating: No JWT cookie")
 }
 
+#[get("/README.txt")]
+async fn readme() -> impl Responder {
+    fs::read_to_string("src/README.txt")
+}
+
 #[get("/stats")]
 async fn stats() -> impl Responder {
     format!("stats")
@@ -67,7 +74,7 @@ async fn stats() -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(auth).service(verify).service(stats))
+    HttpServer::new(|| App::new().service(auth).service(verify).service(stats).service(readme))
         .bind("127.0.0.1:8080")?
         .run()
         .await
