@@ -46,6 +46,7 @@ function NewPost({ addPost, existingUsers, ...props }) {
           fetch("https://workers.uncleshelby.workers.dev/posts", {
             method: "POST",
             body: JSON.stringify(post),
+            credentials: "include",
           })
             .then((response) => response.text())
             .then((message) => {
