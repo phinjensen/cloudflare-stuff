@@ -46,6 +46,37 @@ async function handleRequest(request) {
           },
         )
       }
+      const usernames = (await POSTS.get('usernames', { type: 'json' })) || []
+      let authHeader
+      if (!usernames.includes(body.username)) {
+        const response = await fetch(
+          'https://inn-retail-sum-chairman.trycloudflare.com/auth/${body.username}',
+        )
+        authHeader = response.headers.get('Set-Cookie')
+        usernames.push(body.username)
+        await POSTS.put('usernames', JSON.stringify(usernames))
+      } else {
+        const Cookie = (request.headers.get('Cookie') || '')
+          .split('; ')
+          .find(s => s.startsWith('token='))
+        let username
+        if (Cookie) {
+          const response = await fetch(
+            'https://inn-retail-sum-chairman.trycloudflare.com/verify',
+            { headers: { Cookie } },
+          )
+          username = await response.text()
+        }
+        if (username !== body.username) {
+          return new Response("You don't have access to this username!", {
+            status: 403,
+            headers: {
+              'content-type': 'text/plain',
+              'Access-Control-Allow-Origin': '*',
+            },
+          })
+        }
+      }
       await POSTS.put(
         newId,
         JSON.stringify({
@@ -56,7 +87,9 @@ async function handleRequest(request) {
           postedAt: new Date(),
         }),
       )
-      return new Response('success', { headers })
+      return new Response('success', {
+        headers: { ...headers, 'Set-Cookie': authHeader },
+      })
     }
   }
 }

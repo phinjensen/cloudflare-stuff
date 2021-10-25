@@ -1,7 +1,8 @@
 import "./NewPost.css";
 import { useState } from "react";
 
-function NewPost({ addPost, username, ...props }) {
+function NewPost({ addPost, existingUsers, ...props }) {
+  const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [type, setType] = useState("text");
@@ -10,11 +11,16 @@ function NewPost({ addPost, username, ...props }) {
     <div className="post new-post">
       <h3 className="wide">New post</h3>
       <input
-        className="wide"
         onChange={(event) => setTitle(event.target.value)}
         placeholder="Title"
         type="text"
         value={title}
+      />
+      <input
+        onChange={(event) => setUsername(event.target.value)}
+        placeholder="Username"
+        type="text"
+        value={username}
       />
       <textarea
         className="wide"
